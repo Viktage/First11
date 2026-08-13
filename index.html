@@ -63,11 +63,18 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
+        tg.expand();
 
         function sendAction(actionType) {
-            // Отправляем данные обратно боту в Telegram
-            tg.sendData(JSON.stringify({ action: actionType }));
+            try {
+                // Пытаемся передать данные штатным методом
+                tg.sendData(JSON.stringify({ action: actionType }));
+            } catch (e) {
+                console.log("sendData не поддерживается в данном типе кнопки");
+            }
+
+            // Запасной гарантированный вариант: закрываем Mini App
+            tg.close();
         }
     </script>
 </body>
